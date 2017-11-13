@@ -19,7 +19,7 @@
 
 namespace CleverAge\EAVManager\EAVModelBundle\Twig;
 
-use Sidus\EAVModelBundle\Context\ContextManager;
+use Sidus\EAVModelBundle\Form\ContextFormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Twig_Extension;
@@ -31,15 +31,15 @@ use Twig_Extension;
  */
 class EAVContextExtension extends Twig_Extension
 {
-    /** @var ContextManager */
-    protected $contextManager;
+    /** @var ContextFormBuilderInterface */
+    protected $contextFormBuilder;
 
     /**
-     * @param ContextManager $contextManager
+     * @return ContextFormBuilderInterface
      */
-    public function __construct(ContextManager $contextManager)
+    public function getContextFormBuilder()
     {
-        $this->contextManager = $contextManager;
+        return $this->contextFormBuilder;
     }
 
     /**
@@ -59,7 +59,7 @@ class EAVContextExtension extends Twig_Extension
      */
     public function getContextForm()
     {
-        $form = $this->contextManager->getContextSelectorForm();
+        $form = $this->contextFormBuilder->getContextSelectorForm();
         if (!$form) {
             return null;
         }
